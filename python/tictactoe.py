@@ -1,32 +1,32 @@
-def has_won(symbol, matrix):
-    if check_rows(symbol, matrix):
-        return True
+from game import *
+from printer import *
 
-    if check_columns(symbol, matrix):
-        return True
+game = Game()
+printer = Printer(game)
 
-    if check_diagonals(symbol, matrix):
-        return True
+print 'X starts, e.g. "X 2 2" to place a marker in the middle of the matrix.'
 
-    return False
+printer.print_game()
 
-def check_rows(symbol, matrix):
-    for row in matrix:
-        if row == [symbol for j in range(3)]:
-            return True
-    return False
+while True:
+    cmd = raw_input('tic-tac-toe> ')
 
-def check_columns(symbol, matrix):
-    for column in range(3):
-        if [row[column] for row in matrix] == [symbol for j in range(3)]:
-            return True
-    return False
+    if cmd == 'Q':
+        break
 
-def check_diagonals(symbol, matrix):
-    diagonal1 = [matrix[i][i] for i in range(len(matrix))]
-    diagonal2 = [matrix[i][len(matrix)-1-i] for i in range(len(matrix))]
-    winning = [symbol for i in range(3)]
+    args = cmd.split(' ')
 
-    if diagonal1 == winning or diagonal2 == winning:
-        return True
-    return False
+    if len(args) != 3:
+        print 'Usage: <X|O> <x> <y>, where x,y = [1,3]. Q to quit.'
+        continue
+
+    try:
+        game.place_marker(args[0], int(args[1])-1, int(args[2])-1)
+    except Exception as e:
+        print e.message
+
+    printer.print_game()
+
+    if game.game_ended():
+        print 'You win!'
+        break
