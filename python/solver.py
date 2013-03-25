@@ -8,13 +8,7 @@ class Solver:
         """Checks if the given symbol has won.
            symbol -- X or O
         """
-        if self._check_rows(symbol):
-            return True
-
-        if self._check_columns(symbol):
-            return True
-
-        if self._check_diagonals(symbol):
+        if self._check_rows(symbol) or self._check_columns(symbol) or self._check_diagonals(symbol):
             return True
 
         return False
